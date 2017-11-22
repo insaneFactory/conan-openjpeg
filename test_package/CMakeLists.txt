@@ -1,10 +1,10 @@
-PROJECT(MyHello)
-cmake_minimum_required(VERSION 3.0)
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+PROJECT(test_package)
+cmake_minimum_required(VERSION 2.8.11)
 
+set(CMAKE_VERBOSE_MAKEFILE TRUE)
+
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 CONAN_BASIC_SETUP()
 
-ADD_EXECUTABLE(main main.cpp)
-ADD_EXECUTABLE(test_headers test_headers.cpp)
-TARGET_LINK_LIBRARIES(main ${CONAN_LIBS})
-TARGET_LINK_LIBRARIES(test_headers ${CONAN_LIBS})
+ADD_EXECUTABLE(${PROJECT_NAME} test_package.cpp)
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${CONAN_LIBS})
