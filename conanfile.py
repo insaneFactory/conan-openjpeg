@@ -6,7 +6,7 @@ class OpenJpegConan(ConanFile):
     generators = "cmake"
     settings = "os", "compiler", "build_type", "arch"
     exports = "*"
-    url="https://github.com/MarcAntoine-Arnaud/conan-openjpeg"
+    url="https://github.com/bincrafters/conan-openjpeg"
     license="https://github.com/uclouvain/openjpeg/blob/master/LICENSE"
 
     def source(self):
