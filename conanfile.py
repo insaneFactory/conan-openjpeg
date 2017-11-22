@@ -23,9 +23,9 @@ class OpenJpegConan(ConanFile):
         os.rename(extracted_dir, "sources")
 
     def build(self):
-        cmake = CMake(self.settings)
-        self.run('cmake %s %s' % (self.conanfile_directory, cmake.command_line))
-        self.run("cmake --build . %s" % cmake.build_config)
+        cmake = CMake(self)
+        cmake.configure()
+        cmake.build()
 
     def package(self):
         dst_folder=self.name + '-2.3'
@@ -38,4 +38,3 @@ class OpenJpegConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = ["openjp2"]
-
