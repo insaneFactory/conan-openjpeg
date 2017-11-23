@@ -45,8 +45,8 @@ class OpenJpegConan(ConanFile):
             self.copy("opj_*", dst="bin", src=bin_dir, keep_path=False)
         if self.settings.os == "Windows":
             if self.options.shared:
-                self.copy(pattern="*.dll", dst="bin", src="bin", keep_path=False)
-            self.copy(pattern="*.lib", dst="lib", src="lib", keep_path=False)
+                self.copy(pattern="*.dll", dst="bin", src=bin_dir, keep_path=False)
+            self.copy(pattern="*.lib", dst="lib", src=lib_dir, keep_path=False)
         elif str(self.settings.os) in ['Linux', 'Android']:
             if self.options.shared:
                 self.copy("*.so*", dst="lib", src="lib", keep_path=False)
