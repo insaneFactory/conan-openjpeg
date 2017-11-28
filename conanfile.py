@@ -18,7 +18,12 @@ class OpenJpegConan(ConanFile):
     url = "https://github.com/bincrafters/conan-openjpeg"
     license = "https://github.com/uclouvain/openjpeg/blob/master/LICENSE"
     author = "Alexander Zaitsev <zamazan4ik@tut.by>"
-    requires = "zlib/1.2.11@conan/stable"
+
+    def requirements(self):
+        self.requires.add('zlib/1.2.11@conan/stable')
+        self.requires.add('lcms/2.9@bincrafters/stable')
+        self.requires.add('libpng/1.6.34@bincrafters/stable')
+        self.requires.add('libtiff/4.0.8@bincrafters/stable')
 
     def source(self):
         source_url = "https://github.com/uclouvain/openjpeg"
@@ -27,6 +32,8 @@ class OpenJpegConan(ConanFile):
         os.rename(extracted_dir, "sources")
 
     def build(self):
+        # ensure our lcms is used
+        os.unlink(os.path.join('sources', 'cmake', 'FindLCMS2.cmake'))
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
