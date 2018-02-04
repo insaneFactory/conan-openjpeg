@@ -29,13 +29,20 @@ class OpenJpegConan(ConanFile):
         source_url = "https://github.com/uclouvain/openjpeg"
         tools.get("{0}/archive/v{1}.tar.gz".format(source_url, self.version))
         extracted_dir = self.name + "-" + self.version
-        os.rename(extracted_dir, "sources")
+        os.rename(extracted_dir, self.source_subfolder)
+
+        os.rename(os.path.join(self.source_subfolder, "CMakeLists.txt"),
+                  os.path.join(self.source_subfolder, "CMakeListsOriginal.txt"))
+        shutil.copy("CMakeLists.txt",
+                    os.path.join(self.source_subfolder, "CMakeLists.txt"))
 
     def build(self):
         # ensure our lcms is used
         os.unlink(os.path.join('sources', 'cmake', 'FindLCMS2.cmake'))
         cmake = CMake(self)
-        cmake.configure()
+        cmake.definitions['BUILD_SHARED_LIBS'] = self.options.shared
+        cmake.definitions['BUILD_STATIC_LIBS'] = not self.options.shared
+        cmake.configure(source_folder=self.source_subfolder)
         cmake.build()
         cmake.install()
 
