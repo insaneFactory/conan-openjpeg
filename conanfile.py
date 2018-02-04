@@ -24,7 +24,7 @@ class OpenjpegConan(ConanFile):
 
     def requirements(self):
         self.requires.add("zlib/[~=1.2]@conan/stable")
-        self.requires.add('lcms/2.9@bincrafters/stable')
+        self.requires.add("lcms/[>=2.9]@bincrafters/stable")
         self.requires.add("libpng/[>=1.6.34]@bincrafters/stable")
         self.requires.add("libtiff/[>=4.0.8]@bincrafters/stable")
 
