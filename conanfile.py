@@ -57,8 +57,7 @@ class OpenjpegConan(ConanFile):
         cmake.install()
 
     def package(self):
-        self.copy(pattern="LICENSE", dst=".", src=os.path.join("source", "LICENSE"))
-        self.copy("*.a", dst="lib", src="lib", keep_path=False)
+        self.copy(pattern="LICENSE", dst="licenses", src=self.source_subfolder)
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
