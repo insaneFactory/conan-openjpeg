@@ -2,10 +2,11 @@
 # -*- coding: utf-8 -*-
 
 import os
+import shutil
 from conans import ConanFile, CMake, tools
 
 
-class OpenJpegConan(ConanFile):
+class OpenjpegConan(ConanFile):
     name = "openjpeg"
     version = "2.3.0"
     description = "OpenJPEG is an open-source JPEG 2000 codec written in C language."
@@ -13,11 +14,13 @@ class OpenJpegConan(ConanFile):
     default_options = "shared=False", "build_codec=True"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
-    exports = "LICENSE"
+    exports = "LICENSE.md"
     exports_sources = "CMakeLists.txt"
     url = "https://github.com/bincrafters/conan-openjpeg"
-    license = "https://github.com/uclouvain/openjpeg/blob/master/LICENSE"
-    author = "Alexander Zaitsev <zamazan4ik@tut.by>"
+    website = "https://github.com/uclouvain/openjpeg"
+    license = "BSD 2-Clause"
+
+    source_subfolder = "source_subfolder"
 
     def requirements(self):
         self.requires.add('zlib/1.2.11@conan/stable')
@@ -38,7 +41,14 @@ class OpenJpegConan(ConanFile):
 
     def build(self):
         # ensure our lcms is used
-        os.unlink(os.path.join('sources', 'cmake', 'FindLCMS2.cmake'))
+        os.unlink(os.path.join(self.source_subfolder, 'cmake', 'FindLCMS2.cmake'))
+
+        # fix installing libs when only shared or static library built
+        tools.replace_in_file(os.path.join(self.source_subfolder, 'src', 'lib', 'openjp2', 'CMakeLists.txt'),
+                              'add_library(${OPENJPEG_LIBRARY_NAME} ${OPENJPEG_SRCS})',
+                              'add_library(${OPENJPEG_LIBRARY_NAME} ${OPENJPEG_SRCS})\n'
+                              'set(INSTALL_LIBS ${OPENJPEG_LIBRARY_NAME})')
+
         cmake = CMake(self)
         cmake.definitions['BUILD_SHARED_LIBS'] = self.options.shared
         cmake.definitions['BUILD_STATIC_LIBS'] = not self.options.shared
@@ -51,7 +61,7 @@ class OpenJpegConan(ConanFile):
         self.copy("*.a", dst="lib", src="lib", keep_path=False)
 
     def package_info(self):
-        self.cpp_info.libs = ['openjp2']
+        self.cpp_info.libs = tools.collect_libs(self)
         if not self.options.shared:
             self.cpp_info.defines.append('OPJ_STATIC')
         if self.settings.os == "Linux":
