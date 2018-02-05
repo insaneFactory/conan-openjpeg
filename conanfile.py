@@ -10,8 +10,8 @@ class OpenjpegConan(ConanFile):
     name = "openjpeg"
     version = "2.3.0"
     description = "OpenJPEG is an open-source JPEG 2000 codec written in C language."
-    options = {"shared": [True, False], "build_codec": [True, False]}
-    default_options = "shared=False", "build_codec=True"
+    options = {"shared": [True, False], "build_codec": [True, False], "fPIC": [True, False] }
+    default_options = "shared=False", "build_codec=True", "fPIC=True"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
     exports = "LICENSE.md"
@@ -27,6 +27,10 @@ class OpenjpegConan(ConanFile):
         self.requires.add("lcms/[>=2.9]@bincrafters/stable")
         self.requires.add("libpng/[>=1.6.34]@bincrafters/stable")
         self.requires.add("libtiff/[>=4.0.8]@bincrafters/stable")
+
+   def config_options(self):
+        if self.settings.os == "Windows":
+            self.options.remove("fPIC")
 
     def source(self):
         source_url = "https://github.com/uclouvain/openjpeg"
@@ -52,6 +56,8 @@ class OpenjpegConan(ConanFile):
         cmake = CMake(self)
         cmake.definitions['BUILD_SHARED_LIBS'] = self.options.shared
         cmake.definitions['BUILD_STATIC_LIBS'] = not self.options.shared
+        if self.settings.os != "Windows":
+            cmake.definitions["CMAKE_POSITION_INDEPENDENT_CODE"] = self.options.fPIC
         cmake.configure(source_folder=self.source_subfolder)
         cmake.build()
         cmake.install()
