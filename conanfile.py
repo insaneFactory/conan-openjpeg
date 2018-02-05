@@ -28,7 +28,7 @@ class OpenjpegConan(ConanFile):
         self.requires.add("libpng/[>=1.6.34]@bincrafters/stable")
         self.requires.add("libtiff/[>=4.0.8]@bincrafters/stable")
 
-   def config_options(self):
+    def config_options(self):
         if self.settings.os == "Windows":
             self.options.remove("fPIC")
 
