@@ -17,7 +17,7 @@ class OpenjpegConan(ConanFile):
     exports = "LICENSE.md"
     exports_sources = "CMakeLists.txt"
     url = "https://github.com/bincrafters/conan-openjpeg"
-    website = "https://github.com/uclouvain/openjpeg"
+    homepage = "https://github.com/uclouvain/openjpeg"
     license = "BSD 2-Clause"
 
     source_subfolder = "source_subfolder"
