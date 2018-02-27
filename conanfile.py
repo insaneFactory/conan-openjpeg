@@ -10,7 +10,7 @@ class OpenjpegConan(ConanFile):
     name = "openjpeg"
     version = "2.3.0"
     description = "OpenJPEG is an open-source JPEG 2000 codec written in C language."
-    options = {"shared": [True, False], "build_codec": [True, False], "fPIC": [True, False] }
+    options = {"shared": [True, False], "build_codec": [True, False], "fPIC": [True, False]}
     default_options = "shared=False", "build_codec=True", "fPIC=True"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
