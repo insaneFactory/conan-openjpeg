@@ -1,7 +1,7 @@
 ## Package Status
 
 | Bintray | Windows | Linux and Macos |
-|---------|------------|--------|------|
+|---------|---------|-----------------|
 |[![Download](https://api.bintray.com/packages/bincrafters/public-conan/openjpeg%3Abincrafters/images/download.svg) ](https://bintray.com/bincrafters/public-conan/openjpeg%3Abincrafters/_latestVersion)|[![Build status](https://ci.appveyor.com/api/projects/status/github/bincrafters/conan-openjpeg?svg=true)](https://ci.appveyor.com/project/BinCrafters/conan-openjpeg)|[![Build Status](https://travis-ci.org/bincrafters/conan-openjpeg.svg)](https://travis-ci.org/bincrafters/conan-openjpeg)|
 
 
