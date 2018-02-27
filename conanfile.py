@@ -64,6 +64,14 @@ class OpenjpegConan(ConanFile):
 
     def package(self):
         self.copy(pattern="LICENSE", dst="licenses", src=self.source_subfolder)
+        # remove binaries
+        for bin_program in ['opj_dump', 'opj_compress', 'opj_decompress']:
+            for ext in ['', '.exe']:
+                try:
+                    os.remove(os.path.join(self.package_folder, 'bin', bin_program+ext))
+                except:
+                    pass
+
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
