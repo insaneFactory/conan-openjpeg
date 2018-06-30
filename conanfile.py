@@ -72,6 +72,10 @@ class OpenjpegConan(ConanFile):
                     os.remove(os.path.join(self.package_folder, 'bin', bin_program+ext))
                 except:
                     pass
+        if self.settings.os == 'Windows':
+            tools.replace_in_file(os.path.join(self.package_folder, 'lib', 'pkgconfig', 'libopenjp2.pc'),
+                                  'Libs.private: -lm', '')
+
 
     def package_info(self):
         tokens = self.version.split('.')
