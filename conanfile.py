@@ -73,8 +73,9 @@ class OpenjpegConan(ConanFile):
                 except:
                     pass
 
-
     def package_info(self):
+        tokens = self.version.split('.')
+        self.cpp_info.includedirs.append(os.path.join('include', 'openjpeg-%s.%s' % (tokens[0], tokens[1])))
         self.cpp_info.libs = tools.collect_libs(self)
         if not self.options.shared:
             self.cpp_info.defines.append('OPJ_STATIC')
