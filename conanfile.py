@@ -26,7 +26,7 @@ class OpenjpegConan(ConanFile):
         self.requires.add("zlib/1.2.11@conan/stable")
         self.requires.add("lcms/2.9@bincrafters/stable")
         self.requires.add("libpng/1.6.34@bincrafters/stable")
-        self.requires.add("libtiff/4.0.8@bincrafters/stable")
+        self.requires.add("libtiff/4.0.9@bincrafters/stable")
 
     def config_options(self):
         if self.settings.os == "Windows":
