@@ -26,7 +26,7 @@ class OpenjpegConan(ConanFile):
         self.requires.add("zlib/1.2.11@conan/stable")
         self.requires.add("lcms/2.9@bincrafters/stable")
         self.requires.add("libpng/1.6.34@bincrafters/stable")
-        self.requires.add("libtiff/4.0.8@bincrafters/stable")
+        self.requires.add("libtiff/4.0.9@bincrafters/stable")
 
     def config_options(self):
         if self.settings.os == "Windows":
@@ -56,6 +56,7 @@ class OpenjpegConan(ConanFile):
         cmake = CMake(self)
         cmake.definitions['BUILD_SHARED_LIBS'] = self.options.shared
         cmake.definitions['BUILD_STATIC_LIBS'] = not self.options.shared
+        cmake.definitions['BUILD_PKGCONFIG_FILES'] = True
         if self.settings.os != "Windows":
             cmake.definitions["CMAKE_POSITION_INDEPENDENT_CODE"] = self.options.fPIC
         cmake.configure(source_folder=self.source_subfolder)
@@ -71,9 +72,14 @@ class OpenjpegConan(ConanFile):
                     os.remove(os.path.join(self.package_folder, 'bin', bin_program+ext))
                 except:
                     pass
+        if self.settings.os == 'Windows':
+            tools.replace_in_file(os.path.join(self.package_folder, 'lib', 'pkgconfig', 'libopenjp2.pc'),
+                                  'Libs.private: -lm', '')
 
 
     def package_info(self):
+        tokens = self.version.split('.')
+        self.cpp_info.includedirs.append(os.path.join('include', 'openjpeg-%s.%s' % (tokens[0], tokens[1])))
         self.cpp_info.libs = tools.collect_libs(self)
         if not self.options.shared:
             self.cpp_info.defines.append('OPJ_STATIC')
