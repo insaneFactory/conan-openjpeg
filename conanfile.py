@@ -75,6 +75,9 @@ class OpenjpegConan(ConanFile):
         if self.settings.os == 'Windows':
             tools.replace_in_file(os.path.join(self.package_folder, 'lib', 'pkgconfig', 'libopenjp2.pc'),
                                   'Libs.private: -lm', '')
+        elif self.settings.os == 'Linux':
+            tools.replace_in_file(os.path.join(self.package_folder, 'lib', 'pkgconfig', 'libopenjp2.pc'),
+                                  'Libs.private: -lm', 'Libs.private: -lm -lpthread')
 
 
     def package_info(self):
