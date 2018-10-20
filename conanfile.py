@@ -58,8 +58,6 @@ class OpenjpegConan(ConanFile):
         cmake.definitions['BUILD_SHARED_LIBS'] = self.options.shared
         cmake.definitions['BUILD_STATIC_LIBS'] = not self.options.shared
         cmake.definitions['BUILD_PKGCONFIG_FILES'] = True
-        if self.settings.os != "Windows":
-            cmake.definitions["CMAKE_POSITION_INDEPENDENT_CODE"] = self.options.fPIC
         cmake.configure(source_folder=self._source_subfolder)
         cmake.build()
         cmake.install()
