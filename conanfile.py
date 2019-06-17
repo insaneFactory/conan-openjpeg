@@ -10,6 +10,7 @@ class OpenjpegConan(ConanFile):
     name = "openjpeg"
     version = "2.3.1"
     description = "OpenJPEG is an open-source JPEG 2000 codec written in C language."
+    topics = ("conan", "openjpeg", "codec")
     options = {"shared": [True, False], "build_codec": [True, False], "fPIC": [True, False]}
     default_options = {'shared': False, 'build_codec': True, 'fPIC': True}
     settings = "os", "compiler", "build_type", "arch"
@@ -19,14 +20,14 @@ class OpenjpegConan(ConanFile):
     author = "Bincrafters <bincrafters@gmail.com>"
     url = "https://github.com/bincrafters/conan-openjpeg"
     homepage = "https://github.com/uclouvain/openjpeg"
-    license = "BSD 2-Clause"
+    license = "BSD-2-Clause"
 
     _source_subfolder = "source_subfolder"
 
     requires = (
         "zlib/1.2.11@conan/stable",
         "lcms/2.9@bincrafters/stable",
-        "libpng/1.6.34@bincrafters/stable",
+        "libpng/1.6.37@bincrafters/stable",
         "libtiff/4.0.9@bincrafters/stable"
     )
 
@@ -35,8 +36,8 @@ class OpenjpegConan(ConanFile):
             self.options.remove("fPIC")
 
     def source(self):
-        source_url = "https://github.com/uclouvain/openjpeg"
-        tools.get("{0}/archive/v{1}.tar.gz".format(source_url, self.version))
+        sha256 = "63f5a4713ecafc86de51bfad89cc07bb788e9bba24ebbf0c4ca637621aadb6a9"
+        tools.get("{0}/archive/v{1}.tar.gz".format(self.homepage, self.version), sha256=sha256)
         extracted_dir = self.name + "-" + self.version
         os.rename(extracted_dir, self._source_subfolder)
 
@@ -71,7 +72,6 @@ class OpenjpegConan(ConanFile):
         elif self.settings.os == 'Linux':
             tools.replace_in_file(os.path.join(self.package_folder, 'lib', 'pkgconfig', 'libopenjp2.pc'),
                                   'Libs.private: -lm', 'Libs.private: -lm -lpthread')
-
 
     def package_info(self):
         tokens = self.version.split('.')
