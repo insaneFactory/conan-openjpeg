@@ -26,7 +26,7 @@ class OpenjpegConan(ConanFile):
 
     requires = (
         "zlib/1.2.11",
-        "lcms/2.9@bincrafters/stable",
+        "lcms/2.9",
         "libpng/1.6.37",
         "libtiff/4.0.9"
     )
